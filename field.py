@@ -1,7 +1,8 @@
 import pygame
 
-from config import size, font_size, BLACK, left_margin, upper_margin, \
-    block_size, WHITE, LETTERS
+from config import (size, font_size, block_size,
+                    BLACK, WHITE, LETTERS,
+                    left_margin, upper_margin)
 
 pygame.init()
 
@@ -10,7 +11,7 @@ screen = pygame.display.set_mode(size)
 font = pygame.font.SysFont('notosans', font_size)
 
 
-class Grid():
+class Grid:
     def __init__(self, title, offset):
         self.title = title
         self.offset = offset
@@ -21,32 +22,46 @@ class Grid():
     def draw_grid(self):
         for i in range(11):
             # Horizontal lines
-            pygame.draw.line(screen, BLACK, (left_margin+self.offset, upper_margin+i*block_size),
-                            (left_margin+10*block_size+self.offset, upper_margin+i*block_size), 1)
+            x1 = left_margin + self.offset
+            y1 = upper_margin + i * block_size
+            x2 = left_margin + 10 * block_size + self.offset
+            y2 = upper_margin + i * block_size
+            pygame.draw.line(screen, BLACK, (x1, y1), (x2, y2), 1)
+
             # Vertical lines
-            pygame.draw.line(screen, BLACK, (left_margin+i*block_size+self.offset, upper_margin),
-                            (left_margin+i*block_size+self.offset, upper_margin+10*block_size), 1)
+            x1 = left_margin + i * block_size + self.offset
+            y1 = upper_margin
+            x2 = left_margin + i * block_size + self.offset
+            y2 = upper_margin + 10 * block_size
+            pygame.draw.line(screen, BLACK, (x1, y1), (x2, y2), 1)
 
     def add_nums_letters_to_grid(self):
         for i in range(10):
-            num_ver = font.render(str(i+1), True, BLACK)
+            num_ver = font.render(str(i + 1), True, BLACK)
             letters_hor = font.render(LETTERS[i], True, BLACK)
             num_ver_width = num_ver.get_width()
             num_ver_height = num_ver.get_height()
             letters_hor_width = letters_hor.get_width()
 
             # Ver num grid1
-            screen.blit(num_ver, (left_margin - (block_size//2+num_ver_width//2)+self.offset,
-                                    upper_margin + i*block_size + (block_size//2 - num_ver_height//2)))
+            x = (left_margin - (block_size // 2 + num_ver_width // 2) +
+                 self.offset)
+            y = (upper_margin + i * block_size +
+                 (block_size // 2 - num_ver_height // 2))
+            screen.blit(num_ver, (x, y))
+
             # Hor letters grid1
-            screen.blit(letters_hor, (left_margin + i*block_size + (block_size //
-                                                                    2 - letters_hor_width//2)+self.offset, upper_margin + 10*block_size))
+            x = (left_margin + i * block_size +
+                 (block_size // 2 - letters_hor_width // 2) + self.offset)
+            y = upper_margin + 10 * block_size
+            screen.blit(letters_hor, (x, y))
 
     def sign_grids(self):
         player = font.render(self.title, True, BLACK)
         sign_width = player.get_width()
-        screen.blit(player, (left_margin + 5*block_size - sign_width //
-                            2+self.offset, upper_margin - block_size//2 - font_size))
+        x = left_margin + 5 * block_size - sign_width // 2 + self.offset
+        y = upper_margin - block_size // 2 - font_size
+        screen.blit(player, (x, y))
 
 
 if __name__ == '__main__':
@@ -66,4 +81,3 @@ if __name__ == '__main__':
                 game_over = True
 
         pygame.display.update()
-
