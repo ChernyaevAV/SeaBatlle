@@ -8,7 +8,7 @@ class Direction:
 
 class StatusCell:
     live = 'live'
-    die = 'die'
+    killed = 'killed'
 
 
 class StatusShip(StatusCell):
@@ -22,10 +22,14 @@ class Cell:
 
 
 class Ship:
-    length: int
+    size: int
     position: tuple
     direction: Direction
     status: StatusShip
+
+
+class Field:
+    pass
 
 
 class Player:
@@ -34,18 +38,14 @@ class Player:
         self.available_ships = []
         self.ships = []
 
-    def add_ship(self, size, position):
-        pass
+    def add_ship(self, ship: Ship):
+        self.ships.append(ship)
 
-    def remove_ship(self, size, position):
-        pass
+    def remove_ship(self, ship: Ship):
+        self.ships.remove(ship)
 
     def draw_ships(self):
         pass
-
-
-class Field:
-    pass
 
 
 def game():
